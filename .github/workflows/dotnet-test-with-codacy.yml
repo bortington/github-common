@@ -9,7 +9,7 @@ on:
         default: 6.0.x
     secrets:
       CODACY_API_TOKEN:
-        required: true
+        required: false
         
 jobs:
   build-and-test:
