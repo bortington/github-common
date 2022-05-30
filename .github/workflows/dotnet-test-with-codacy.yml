@@ -3,17 +3,21 @@ name: Generate and Upload Coverage
 on:
   workflow_call:
     inputs:
-      dotnet_version:
+      dotnet-version:
         required: false
         type: string
         default: 6.0.x
+      runs-with:
+        required: false
+        type: string
+        default: windows-latest
     secrets:
       CODACY_API_TOKEN:
         required: false
         
 jobs:
   build-and-test:
-    runs-on: windows-latest
+    runs-on: ${{ inputs.runs-with }}
     steps:
     - uses: actions/checkout@v2
     
