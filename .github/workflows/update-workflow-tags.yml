@@ -24,18 +24,22 @@ jobs:
         run: |
           $commandOutput = (git diff HEAD^ HEAD --name-only  | Select-String -Pattern .*\.yml | Select -Expand Matches | Select -Expand Value) 
           $changes = @()
+          $files = @()
+          
           foreach ($file in $commandOutput) {
               $changes += [pscustomobject] @{file = $file}
+              $files += $file
           }
           $matrix = @{include=$changes}
-          $output = ConvertTo-Json $changes -Compress
-          echo "::set-output name=matrix::$matrix"
+          $output = ConvertTo-Json $files -Compress
+          echo "::set-output name=matrix::$output"
                 
   update-tag:
     needs: generate-matrix
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+      matrix: 
+        file: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v2
       - run: echo ${{ matrix.file }}
