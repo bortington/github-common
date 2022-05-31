@@ -27,14 +27,16 @@ jobs:
           $changes = @()
           $files = @()
           
-          foreach ($fileName in $commandOutput) {
-              $file = Get-Item $fileName
-              if(!$file.Exists) { 
-                    continue
+          foreach ($fileName in $commandOutput) 
+          {
+              if(Test-Path $fileName)
+              {
+                $file = Get-Item $fileName
+            
+                $changes += @{
+                    file = $fileName
+                    tagName = $file.BaseName
                 }
-              $changes += @{
-                  file = $fileName
-                  tagName = $file.BaseName
               }
           }
           
