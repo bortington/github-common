@@ -12,7 +12,8 @@ jobs:
     name: Generate job matrices
     runs-on: windows-latest
     outputs:
-      matrix: ${{ steps.changes.outputs.matrix }}
+      files: ${{ steps.changes.outputs.files }}
+      matrix-include: ${{ steps.changes.outputs.matrix-include }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -30,16 +31,18 @@ jobs:
               $changes += [pscustomobject] @{file = $file}
               $files += $file
           }
+          
           $matrix = @{include=$changes}
-          $output = ConvertTo-Json $files -Compress
-          echo "::set-output name=matrix::$output"
+          
+          echo "::set-output name=files::$(ConvertTo-Json $files -Compress)"
+          echo "::set-output name=matrix-include::$(ConvertTo-Json $changes -Compress)"
                 
   update-tag:
     needs: generate-matrix
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        file: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+        include: ${{ fromJson(needs.generate-matrix.outputs.matrix-include) }}
     steps:
       - uses: actions/checkout@v2
       - run: echo ${{ matrix.file }}
