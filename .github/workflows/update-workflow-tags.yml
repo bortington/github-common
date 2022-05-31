@@ -29,6 +29,9 @@ jobs:
           
           foreach ($fileName in $commandOutput) {
               $file = Get-Item $fileName
+              if(!$file.Exists) { 
+                    continue
+                }
               $changes += @{
                   file = $fileName
                   tagName = $file.BaseName
