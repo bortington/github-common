@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - '**dotnet-test-with-codacy.yml' 
+      - '.github/workflows/dotnet-test-with-codacy.yml' 
 jobs:
   build:
     runs-on: ubuntu-latest
