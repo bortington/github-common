@@ -22,11 +22,12 @@ jobs:
         id: changes
         shell: pwsh
         run: |
-          $commandOutput = (git diff HEAD^ HEAD --name-only  | Select-String -Pattern .*\.yml | Select -Expand Matches | Select -Expand Value) 
-          $matrix = @()
+          $commandOutput = (git diff HEAD^ HEAD --name-only  | Select-String -Pattern .*\.tf | Select -Expand Matches | Select -Expand Value) 
+          $changes = @()
           foreach ($file in $commandOutput) {
-              $matrix += [pscustomobject] @{file = $file}
+              $changes += [pscustomobject] @{file = $file}
           }
+          $matrix = @{include=$changes}
           $output = ConvertTo-Json($matrix)
           Write-Output ::set-output name=matrix::$output
                 
