@@ -28,7 +28,7 @@ jobs:
               $changes += [pscustomobject] @{file = $file}
           }
           $matrix = @{include=$changes}
-          $output = ConvertTo-Json($matrix)
+          $output = ConvertTo-Json $matrix -Compress
           Write-Output ::set-output name=matrix::$output
                 
   update-tag:
