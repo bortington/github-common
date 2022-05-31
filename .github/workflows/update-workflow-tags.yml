@@ -27,9 +27,12 @@ jobs:
           $changes = @()
           $files = @()
           
-          foreach ($file in $commandOutput) {
-              $changes += [pscustomobject] @{file = $file}
-              $files += $file
+          foreach ($fileName in $commandOutput) {
+              $file = Get-Item $fileName
+              $changes += @{
+                  file = $fileName
+                  tagName = $file.BaseName
+              }
           }
           
           $matrix = @{include=$changes}
@@ -46,6 +49,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: echo ${{ matrix.file }}
+      - uses: actions/checkout@v2
+      - run: echo ${{ matrix.tagName }}
       
 #       - name: Bump version and push tag
 #         id: tag_version
@@ -55,4 +60,4 @@ jobs:
 #           dry_run: false
 #           default_bump: major
 #           create_annotated_tag: true
-#           tag_prefix: '${{ inputs.workflow-name }}/v'
+#           tag_prefix: '${{ matrix.tagName }}/v'
