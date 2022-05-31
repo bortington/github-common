@@ -1,0 +1,45 @@
+name: Automatically increment workflow tags
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/**/*.yml'
+
+jobs:
+  generate-matrix:
+    name: Generate job matrices
+    runs-on: windows-latest
+    outputs:
+      matrix: ${{ steps.changes.outputs.matrix }}
+    steps:
+      - name: Get changed files
+        id: changes
+        shell: pwsh
+        run: |
+          $commandOutput = (git diff HEAD^ HEAD --name-only  | Select-String -Pattern .*\.tf | Select -Expand Matches | Select -Expand Value) 
+          $matrix = @()
+          foreach ($file in $commandOutput) {
+              $matrix += [pscustomobject] @{file = $file}
+          }
+          $output = ConvertTo-Json($matrix)
+          Write-Output ::set-output name=matrix::$output
+                
+  update-tag:
+    needs: generate-matrix
+    runs-on: ubuntu-latest
+    matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo ${{ matrix.file }}
+      
+#       - name: Bump version and push tag
+#         id: tag_version
+#         uses: mathieudutour/github-tag-action@v6.0
+#         with:
+#           github_token: ${{ github.token }}
+#           dry_run: false
+#           default_bump: major
+#           create_annotated_tag: true
+#           tag_prefix: '${{ inputs.workflow-name }}/v'
