@@ -22,7 +22,7 @@ jobs:
         id: changes
         shell: pwsh
         run: |
-          $commandOutput = (git diff HEAD^ HEAD --name-only  | Select-String -Pattern .*\.tf | Select -Expand Matches | Select -Expand Value) 
+          $commandOutput = (git diff HEAD^ HEAD --name-only  | Select-String -Pattern .*\.yml | Select -Expand Matches | Select -Expand Value) 
           $matrix = @()
           foreach ($file in $commandOutput) {
               $matrix += [pscustomobject] @{file = $file}
