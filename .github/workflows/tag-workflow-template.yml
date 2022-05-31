@@ -21,4 +21,4 @@ jobs:
           dry_run: false
           default_bump: major
           create_annotated_tag: true
-          tag_prefix: ${{ inputs.workflow-file }}/v
+          tag_prefix: '${{ inputs.workflow-name }}/v'
