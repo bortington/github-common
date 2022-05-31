@@ -1,4 +1,4 @@
-name: Generate and Upload Coverage
+name: Generate and Upload Code Coverage
 
 on:
   workflow_call:
