@@ -23,11 +23,10 @@ jobs:
         id: changes
         shell: pwsh
         run: |
-          $commandOutput = (git diff HEAD^ HEAD --name-only  | Select-String -Pattern .*\.yml | Select -Expand Matches | Select -Expand Value) 
+          $changedWorkflows = (git diff HEAD^ HEAD --name-only  | Select-String -Pattern .github/workflows/.*\.yml | Select -Expand Matches | Select -Expand Value)
           $changes = @()
-          $files = @()
-          
-          foreach ($fileName in $commandOutput) 
+
+          foreach ($fileName in $changedWorkflows) 
           {
               if(Test-Path $fileName)
               {
@@ -39,10 +38,24 @@ jobs:
                 }
               }
           }
-          
-          $matrix = @{include=$changes}
-          
-          echo "::set-output name=files::$(ConvertTo-Json $files -Compress)"
+
+          # Composite actions use the action.yml file name so we have to treat them separately and use the parent folder name.
+          $changedActions = (git diff HEAD^ HEAD --name-only  | Select-String -Pattern actions/.*\.yml | Select -Expand Matches | Select -Expand Value)
+
+          foreach ($fileName in $changedActions) 
+          {
+            if(Test-Path $fileName)
+            {
+              $file = Get-Item $fileName
+              $file.DirectoryName
+
+              $changes += @{
+                  file = $file.Directory.BaseName
+                  tagName = $file.Directory.BaseName
+              }
+            }
+          }
+
           echo "::set-output name=matrix-include::$(ConvertTo-Json $changes -Compress)"
                 
   update-tag:
