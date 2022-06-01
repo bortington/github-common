@@ -1,4 +1,4 @@
-name: Automatically increment workflow tags
+name: Automatically increment workflow tags 2
 
 on:
   push:
