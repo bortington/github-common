@@ -1,4 +1,4 @@
-name: Automatically increment workflow tags 2
+name: Automatically increment workflow tags
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
         id: changes
         shell: pwsh
         run: |
-          $commandOutput = (git diff HEAD^ HEAD --name-only  | Select-String -Pattern .github/workflows/.*\.yml | Select -Expand Matches | Select -Expand Value) 
+          $commandOutput = (git diff HEAD^ HEAD --name-only  | Select-String -Pattern .*\.yml | Select -Expand Matches | Select -Expand Value) 
           $changes = @()
           $files = @()
           
