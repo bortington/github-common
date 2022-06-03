@@ -66,14 +66,25 @@ jobs:
         include: ${{ fromJson(needs.generate-matrix.outputs.matrix-include) }}
     steps:
       - uses: actions/checkout@v2
-      - run: echo ${{ matrix.file }}
-      - run: echo ${{ matrix.tagName }}
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.0
         with:
-          github_token: ${{ github.token }}
-          dry_run: false
-          default_bump: major
-          create_annotated_tag: true
+          fetch-depth: 0
+          
+      - run: echo ${{ matrix.file }}
+      
+      - run: echo ${{ matrix.tagName }}
+      
+      - name: Generate Version
+        id: Semantic Version
+        uses: paulhatch/semantic-version@v4.0.3
+        with:
+          short_tags: false          
           tag_prefix: '${{ matrix.tagName }}/v'
+          bump_each_commit: true
+          
+      - name: Tag Release
+        run: |
+          # git tag -a ${{ steps.versioning.outputs.version }}
+          echo "Creating tag ${{ steps.versioning.outputs.version }}" 
+          # git push --tags
+          # echo "Pushed tag v${{ steps.versioning.outputs.version }} to origin" 
+        shell: bash
