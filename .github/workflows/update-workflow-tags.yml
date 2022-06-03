@@ -83,8 +83,10 @@ jobs:
           
       - name: Tag Release
         run: |
-          # git tag -a ${{ steps.versioning.outputs.version }}
-          echo "Creating tag ${{ steps.versioning.outputs.version }}" 
+          # git tag -a ${{ steps.versioning.outputs.version }}version_tag
+          echo "version ${{ steps.versioning.outputs.version }}" 
+          echo "version_tag ${{ steps.versioning.outputs.version_tag }}" 
+          echo "authors  ${{ steps.versioning.outputs.authors }}" 
           # git push --tags
           # echo "Pushed tag v${{ steps.versioning.outputs.version }} to origin" 
         shell: bash
