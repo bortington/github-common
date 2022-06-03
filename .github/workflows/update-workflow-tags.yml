@@ -77,8 +77,9 @@ jobs:
         id: versioning
         uses: paulhatch/semantic-version@v4.0.3
         with:
-          short_tags: false          
-          tag_prefix: '${{ matrix.tagName }}/v'
+          short_tags: false
+          user_format_type: "csv"
+          tag_prefix: '${{ matrix.tagName }}/v' # e.g: fred/v1.0.0
           bump_each_commit: true
           
       - name: Tag Release
