@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - '.github/workflows/**/*.yml'
+      - 'actions/**/*.yml'
 
 jobs:
   generate-matrix:
@@ -69,16 +70,11 @@ jobs:
         with:
           fetch-depth: 0
           
-      - run: echo ${{ matrix.file }}
-      
-      - run: echo ${{ matrix.tagName }}
-      
       - name: Generate Version
         id: versioning
         uses: paulhatch/semantic-version@v4.0.3
         with:
           short_tags: false
-          user_format_type: "csv"
           tag_prefix: '${{ matrix.tagName }}/v' # e.g: fred/v1.0.0
           bump_each_commit: true
           
