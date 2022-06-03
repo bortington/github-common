@@ -84,10 +84,8 @@ jobs:
           
       - name: Tag Release
         run: |
-          # git tag -a ${{ steps.versioning.outputs.version }}version_tag
-          echo "version ${{ steps.versioning.outputs.version }}" 
-          echo "version_tag ${{ steps.versioning.outputs.version_tag }}" 
-          echo "authors  ${{ steps.versioning.outputs.authors }}" 
-          # git push --tags
-          # echo "Pushed tag v${{ steps.versioning.outputs.version }} to origin" 
+          git tag ${{ steps.versioning.outputs.version_tag }}
+          echo "Added tag ${{ steps.versioning.outputs.version_tag }} for version ${{ steps.versioning.outputs.version }} of file ${{ matrix.file }}" 
+          git push --tags
+          echo "Pushed tag v${{ steps.versioning.outputs.version_tag }} to origin" 
         shell: bash
