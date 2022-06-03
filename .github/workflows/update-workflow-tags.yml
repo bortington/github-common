@@ -87,5 +87,5 @@ jobs:
           git tag ${{ steps.versioning.outputs.version_tag }}
           echo "Added tag ${{ steps.versioning.outputs.version_tag }} for version ${{ steps.versioning.outputs.version }} of file ${{ matrix.file }}" 
           git push --tags
-          echo "Pushed tag v${{ steps.versioning.outputs.version_tag }} to origin" 
+          echo "Pushed tag ${{ steps.versioning.outputs.version_tag }} to origin" 
         shell: bash
