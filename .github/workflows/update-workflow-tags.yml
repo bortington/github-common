@@ -74,7 +74,7 @@ jobs:
       - run: echo ${{ matrix.tagName }}
       
       - name: Generate Version
-        id: Semantic Version
+        id: versioning
         uses: paulhatch/semantic-version@v4.0.3
         with:
           short_tags: false          
