@@ -37,13 +37,19 @@ jobs:
             $headers.Add("caller", "string")
             $headers.Add("Content-Type", "application/json")
             $body = @{
-              repositoryFullPath = $env:CODACY_USERNAME
+              repositoryFullPath = $repositoryPath
               provider = $env:CODACY_ORGANIZATION_PROVIDER
             } | ConvertTo-Json
             Write-Host "Sending request with body: $body"
             try {
               $response = Invoke-RestMethod 'https://app.codacy.com/api/v3/repositories' -Method 'POST' -Headers $headers -Body $body -SkipHttpErrorCheck
               Write-Host $response
+              
+              if($response.PSobject.Properties.Name -contains "error")
+              {
+                throw $response
+              }
+              
             } catch [System.Net.WebException] {
               Write-Host "An exception was caught: $($_.Exception.Message)"
               throw
