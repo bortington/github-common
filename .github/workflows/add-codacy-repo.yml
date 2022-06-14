@@ -1,8 +1,17 @@
+# on:
+#   workflow_call:
+#     secrets:
+#       CODACY_API_TOKEN:
+#         required: true
+
+name: Add repo to Codacy
+
 on:
-  workflow_call:
-    secrets:
-      CODACY_API_TOKEN:
-        required: true    
+  workflow_dispatch:
+    inputs:
+      github-project-name:
+        type: string
+        description: Project name in GitHub, e.g. rac-bert for github.com/racwa/rac-bert
         
 jobs:
   create-codacy:
@@ -13,7 +22,7 @@ jobs:
       run: |
         echo "CODACY_ORGANIZATION_PROVIDER=$(if [[ $GITHUB_SERVER_URL == "https://github.com" ]]; then echo "gh"; else echo "ghe"; fi)" >> $GITHUB_ENV
         echo "CODACY_USERNAME=$(echo $GITHUB_REPOSITORY | cut -d '/' -f 1)" >> $GITHUB_ENV
-        echo "CODACY_PROJECT_NAME=$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)" >> $GITHUB_ENV
+        echo "CODACY_PROJECT_NAME=${{ github.event.inputs.github-project-name }}" >> $GITHUB_ENV
         
     - name: Create Codacy Project if necessary
       shell: pwsh
