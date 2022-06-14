@@ -15,7 +15,7 @@ on:
         
 jobs:
   create-codacy:
-    runs-on: unbuntu-latest
+    runs-on: ubuntu-latest
     steps:
     - name: "Set Env Variables for Codacy"
       shell: bash
