@@ -4,7 +4,7 @@
 #       CODACY_API_TOKEN:
 #         required: true
 
-name: Add repo to Codacy
+name: TASK - Add repo to Codacy
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ on:
         description: Project name in GitHub, e.g. rac-bert for github.com/racwa/rac-bert
         
 jobs:
-  create-codacy:
+  add-repo-to-codacy:
     runs-on: ubuntu-latest
     steps:
     - name: "Set Env Variables for Codacy"
