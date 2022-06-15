@@ -12,6 +12,7 @@ on:
       github-project-name:
         type: string
         description: Project name in GitHub, e.g. rac-bert for github.com/racwa/rac-bert
+        required: true
         
 jobs:
   add-repo-to-codacy:
