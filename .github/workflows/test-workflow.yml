@@ -1,0 +1,14 @@
+on:
+  workflow_dispatch:
+    inputs:
+      fred:
+        description: 'Some var'
+        required: true
+        default: 'Frodo'
+        
+jobs:
+  call-workflow:
+    runs-on: ubuntu-latest
+    uses: bortington/github-common/.github/workflows/test-reusable-workflow.yml@main
+    with:
+      fred: ${{inputs.fred}}
