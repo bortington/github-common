@@ -1,0 +1,17 @@
+on:
+  workflow_call:
+    inputs:
+      fred:
+        required: true
+        type: string
+
+jobs:
+  call-workflow:
+    uses: bortington/github-common/.github/workflows/test-reusable-workflow.yml@main
+    with:
+      username: ${{inputs.fred}}
+    
+  something-something:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Parent workflow fred: ${{inputs.username}}"
