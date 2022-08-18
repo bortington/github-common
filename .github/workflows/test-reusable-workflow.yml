@@ -1,0 +1,12 @@
+on:
+  workflow_call:
+    inputs:
+      username:
+        required: true
+        type: string
+        
+jobs:
+  blah:
+    steps:
+    - uses: actions/checkout@v2
+    - run: echo "Hello ${{inputs.username}}"
