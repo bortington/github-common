@@ -13,7 +13,7 @@ Hello
 ```
 
 ```mermaid
-    C4Dynamic
+  C4Dynamic
     title Dynamic diagram for Internet Banking System - API Application
 
     ContainerDb(c4, "Database", "Relational Database Schema", "Stores user registration information, hashed authentication credentials, access logs, etc.")
