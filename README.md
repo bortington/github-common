@@ -5,6 +5,14 @@ test
 Hello
 
 ```mermaid
+  graph TD;
+      A-->B;
+      A-->C;
+      B-->D;
+      C-->D;
+```
+
+```mermaid
 C4Context
   title System Context diagram for Internet Banking System
   Enterprise_Boundary(b0, "BankBoundary0") {
