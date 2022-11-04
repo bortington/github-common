@@ -18,11 +18,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: |
-        env | while IFS= read -r line; do
-          value=${line#*=}
-          name=${line%%=*}
-          echo "$name = $value"
-        done
-        
+    - run: |        
         echo "Hello ${{inputs.username}} ${{secrets.SECRET_TF_OPTIONS_PLAN}}"
