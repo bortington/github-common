@@ -25,4 +25,4 @@ jobs:
           echo "$name = $value"
         done
         
-        echo "Hello ${{inputs.username}} {{secrets.SECRET_TF_OPTIONS_PLAN}}"
+        echo "Hello ${{inputs.username}} ${{secrets.SECRET_TF_OPTIONS_PLAN}}"
