@@ -14,8 +14,8 @@ jobs:
       environment: test
       tf_var_keyvault_name: bortington-test-vault
       tf_var_keyvault_secrets: |
-        blah
-        fred
+        secret1
+        secret2
       tf_plan_args: -var fred=bert
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
