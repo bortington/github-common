@@ -4,6 +4,11 @@ on:
       username:
         required: true
         type: string
+      env:
+        description: Environment variables in key=value pairs. Can be used to pass secrets that aren't officially supported yet as environment variables
+        type: string  # pass in string in export shell format eg. MYVAR=myvalue MYVAR2=myvalue2
+        default: ''
+        required: false
         
     secrets:
       SECRET_TF_OPTIONS_PLAN:
@@ -13,10 +18,18 @@ on:
         description: "Optional tf args for the tf apply that may contains secrest"
         required: false
 
+env:
+  ENV: ${{ inputs.env }}
+  
 jobs:
   blah:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - run: |        
-        echo "Hello ${{inputs.username}} ${{secrets.SECRET_TF_OPTIONS_PLAN}}"
+      - name: Setup environment variables
+        run: |
+          echo "${{ env.ENV }}" >> "$GITHUB_ENV"
+      - name: Environment
+        run: env | sort
+      - run: |        
+          echo "Hello ${{inputs.username}} ${{secrets.SECRET_TF_OPTIONS_PLAN}}"
+          echo "Test thing: ${TF_VAR_blah}"
