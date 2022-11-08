@@ -28,4 +28,5 @@ runs:
           secretValue=$(az keyvault secret show --vault-name $KEYVAULT --name $i --query value --output tsv)
           echo "::add-mask::$secretValue"
           echo "TF_VAR_$i=$secretValue" >> $GITHUB_ENV
+          echo "Added env var TF_VAR_$i"
         done
