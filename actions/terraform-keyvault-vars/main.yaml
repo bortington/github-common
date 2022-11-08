@@ -1,0 +1,29 @@
+name: 'Keyvault secrets to Terraform Variabes'
+description: 'Fetches the secrets within a keyvault and assigns them as terraform variables using the tf env var convention TV_VAR_<var-name>'
+
+inputs:
+  vault-name:
+    description: 'Name of the keyvault'
+    required: true
+  secrets:
+    description: Optional multiline value containing the keyvault secrets that are added as tf vars.    
+
+runs:
+  using: "composite"
+  steps:
+    - name: Do stuff
+      run: |
+        secrets=$(az keyvault secret list --vault-name ${{inputs.vault-name}} --query [*].name)
+        
+    - name: Retrieve secrets
+      id: retrieve-secrets
+      env:
+        KEYVAULT: ${{inputs.vault-name}}
+        SECRETS: ${{inputs.secrets}}
+      run: |
+        for i in ${SECRETS//,/ }
+        do
+          secretValue=$(az keyvault secret show --vault-name $KEYVAULT --name $i --query value --output tsv)
+          echo "::add-mask::$secretValue"
+          echo "TF_VAR_$i=$secretValue" >> $GITHUB_ENV
+        done
