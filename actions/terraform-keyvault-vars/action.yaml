@@ -30,3 +30,5 @@ runs:
           echo "TF_VAR_$i=$secretValue" >> $GITHUB_ENV
           echo "Added env var TF_VAR_$i"
         done
+        
+        env | sort
