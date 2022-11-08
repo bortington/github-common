@@ -12,10 +12,12 @@ runs:
   using: "composite"
   steps:
     - name: Do stuff
+      shell: bash
       run: |
         secrets=$(az keyvault secret list --vault-name ${{inputs.vault-name}} --query [*].name)
         
     - name: Retrieve secrets
+      shell: bash
       id: retrieve-secrets
       env:
         KEYVAULT: ${{inputs.vault-name}}
