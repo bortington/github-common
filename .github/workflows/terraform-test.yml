@@ -27,6 +27,11 @@ jobs:
   plan:
     runs-on: ubuntu-latest
     environment: ${{inputs.environment}}
+    permissions: 
+      id-token: write
+      contents: read
+      issues: write
+      pull-requests: write
     steps:
       - name: Azure Login
         uses: azure/login@v1
