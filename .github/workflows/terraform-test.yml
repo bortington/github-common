@@ -15,6 +15,12 @@ on:
         type: string
         default: ''
         required: false
+
+      tf_var_keyvault_secrets:
+        type: string
+        default: ''
+        required: false
+        
     secrets:
       AZURE_CLIENT_ID:
         required: true
@@ -46,6 +52,7 @@ jobs:
         if: inputs.tf_var_keyvault_name != ''
         with:
           vault-name: ${{inputs.tf_var_keyvault_name}}
+          secrets: ${{inputs.tf_var_keyvault_secrets}}
           
       - run: |        
           echo "Test blah: ${TF_VAR_blah} ${{inputs.tf_plan_args}}"
