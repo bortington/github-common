@@ -32,5 +32,6 @@ runs:
         done
         
     - name: Print Env
+      shell: bash
       run: |
         env | sort
