@@ -1,0 +1,20 @@
+on:
+  workflow_dispatch:
+  
+permissions:
+  id-token: write
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  call-workflow:
+    uses: bortington/github-common/.github/workflows/terraform-test.yml@main
+    with:
+      environment: test
+      tf_var_keyvault_name: bortington-test-vault
+      tf_plan_args: -var fred=bert
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
