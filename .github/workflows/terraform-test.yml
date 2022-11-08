@@ -1,0 +1,21 @@
+on:
+  workflow_call:
+    tf_plan_args:
+      default: ''
+      required: false
+        
+    tf_var_keyvault_name:
+      default: ''
+      required: false
+  
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - id: foo
+        uses: bortington/github-common/actions/terraform-keyvault-vars
+        if: inputs.tf_var_keyvault_name != ''
+        with:
+          vault-name: ${{inputs.tf_var_keyvault_name}}
+      - run: |        
+          echo "Test blah: ${TF_VAR_blah}"
