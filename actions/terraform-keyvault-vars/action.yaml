@@ -31,4 +31,6 @@ runs:
           echo "Added env var TF_VAR_$i"
         done
         
+    - name: Print Env
+      run: |
         env | sort
