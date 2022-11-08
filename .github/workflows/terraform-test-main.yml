@@ -16,7 +16,7 @@ jobs:
       tf_var_keyvault_secrets: |
         secret1
         secret2
-      tf_plan_args: -var fred=bert
+      tf_plan_args: -var test_variable=sampleval
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
