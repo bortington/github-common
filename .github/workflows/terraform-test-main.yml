@@ -8,7 +8,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  call-workflow:
+  terraform:
     uses: bortington/github-common/.github/workflows/terraform-test.yml@main
     with:
       environment: test
