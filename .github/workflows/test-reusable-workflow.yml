@@ -35,9 +35,9 @@ jobs:
       - name: Setup secret environment variables
         shell: pwsh
         run: |
-          $secretEnv = '@
+          $secretEnv = @'
           ${{secrets.SECRET_ENV}}
-          @'
+          '@
 
           foreach($line in $secretEnv)
           {
