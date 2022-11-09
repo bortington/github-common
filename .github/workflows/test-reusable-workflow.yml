@@ -9,6 +9,11 @@ on:
         type: string  # pass in string in export shell format eg. MYVAR=myvalue MYVAR2=myvalue2
         default: ''
         required: false
+      secret-env:
+        description: Environment variable in key=value pairs and newline separated. Can be used to pass secrets into environment variables
+        type: string
+        default: ''
+        required: false
         
     secrets:
       SECRET_TF_OPTIONS_PLAN:
@@ -28,6 +33,20 @@ jobs:
       - name: Setup environment variables
         run: |
           echo "${{ env.ENV }}" >> "$GITHUB_ENV"
+          
+      - name: Setup secret environment variables
+        if: inputs.secret-env != ''
+        shell: pwsh
+        run: |
+          foreach($line in ${{env.secret-env}})
+          {
+              $key,$value = $line -split '=',2
+
+              Write-Output "::add-mask::$value"
+              Write-Output "$key=$value"
+              Write-Host "Added and masked secret env var $key. Value is $value"              
+          }
+          
       - name: Environment
         run: env | sort
       - run: |        
