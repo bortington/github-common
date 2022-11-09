@@ -35,7 +35,7 @@ jobs:
       - name: Setup secret environment variables
         shell: pwsh
         run: |
-          foreach($line in ${{secrets.SECRET_ENV}})
+          foreach($line in "${{secrets.SECRET_ENV}}")
           {
               $key,$value = $line -split '=',2
 
