@@ -52,7 +52,7 @@ jobs:
               {
                   Write-Output "Adding secret environment variable $key"
                   Write-Output "::add-mask::$value"
-                  "$key=$value" >> $env:GITHUB_ENV
+                  Write-Output "$key=$value" >> $env:GITHUB_ENV
                   Write-Host "Testing: Added and masked secret env var $key. Value is $value"
               }
           }
