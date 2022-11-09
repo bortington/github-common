@@ -9,11 +9,6 @@ on:
         type: string  # pass in string in export shell format eg. MYVAR=myvalue MYVAR2=myvalue2
         default: ''
         required: false
-      secret-env:
-        description: Environment variable in key=value pairs and newline separated. Can be used to pass secrets into environment variables
-        type: string
-        default: ''
-        required: false
         
     secrets:
       SECRET_TF_OPTIONS_PLAN:
@@ -21,6 +16,9 @@ on:
         required: false
       SECRET_TF_OPTIONS_APPLY:
         description: "Optional tf args for the tf apply that may contains secrest"
+        required: false
+      SECRET_ENV:
+        description: Environment variable in key=value pairs and newline separated. Can be used to pass secrets into environment variables
         required: false
 
 env:
@@ -35,10 +33,10 @@ jobs:
           echo "${{ env.ENV }}" >> "$GITHUB_ENV"
           
       - name: Setup secret environment variables
-        if: inputs.secret-env != ''
+        if: secrets.SECRET_ENV != ''
         shell: pwsh
         run: |
-          foreach($line in ${{env.secret-env}})
+          foreach($line in ${{secrets.SECRET_ENV}})
           {
               $key,$value = $line -split '=',2
 
