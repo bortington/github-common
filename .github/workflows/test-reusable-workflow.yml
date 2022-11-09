@@ -15,7 +15,7 @@ on:
       SECRET_ENV:
         description: |
           Additional secret environment variables defined as key=value pairs that are newline separated. Can be used to 
-          pass secrets into tf variables, for example: TF_VAR_secret_api_token=${{secrets.secret_api_token}}
+          pass secrets into tf variables, for example: TF_VAR_secret_api_token=${{'${{secrets.secret_api_token}}'}}
         required: false
   
 jobs:
