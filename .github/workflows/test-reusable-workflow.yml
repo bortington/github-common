@@ -35,13 +35,26 @@ jobs:
       - name: Setup secret environment variables
         shell: pwsh
         run: |
-          foreach($line in "${{secrets.SECRET_ENV}}")
+          $secretEnv = '@
+          ${{secrets.SECRET_ENV}}
+          @'
+
+          foreach($line in $secretEnv)
           {
+              if([string]::IsNullOrEmpty($line))
+              {
+                  continue
+              }
+
               $key,$value = $line -split '=',2
 
-              Write-Output "::add-mask::$value"
-              Write-Output "$key=$value"
-              Write-Host "Added and masked secret env var $key. Value is $value"              
+              if($key -and $value)
+              {
+                  Write-Output "Adding secret environment variable $key"
+                  Write-Output "::add-mask::$value"
+                  "$key=$value" >> $env:GITHUB_ENV
+                  Write-Host "Testing: Added and masked secret env var $key. Value is $value"
+              }
           }
           
       - name: Environment
