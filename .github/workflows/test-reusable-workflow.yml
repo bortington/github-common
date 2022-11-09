@@ -1,37 +1,27 @@
 on:
   workflow_call:
     inputs:
-      username:
-        required: true
+      tf_version:
+        description: Terraform version to use. Will try to infer from .envrc if not given
         type: string
-      env:
-        description: Environment variables in key=value pairs. Can be used to pass secrets that aren't officially supported yet as environment variables
-        type: string  # pass in string in export shell format eg. MYVAR=myvalue MYVAR2=myvalue2
-        default: ''
         required: false
+      tf_dir:
+        description: Terraform base directory to execute in
+        default: ./
+        required: false
+        type: string
         
     secrets:
-      SECRET_TF_OPTIONS_PLAN:
-        description: "Optional tf args for the tf plan that may contains secrest"
-        required: false
-      SECRET_TF_OPTIONS_APPLY:
-        description: "Optional tf args for the tf apply that may contains secrest"
-        required: false
       SECRET_ENV:
-        description: Environment variable in key=value pairs and newline separated. Can be used to pass secrets into environment variables
+        description: |
+          Additional secret environment variables defined as key=value pairs that are newline separated. Can be used to 
+          pass secrets into tf variables, for example: TF_VAR_secret_api_token=${{secrets.secret_api_token}}
         required: false
-
-env:
-  ENV: ${{ inputs.env }}
   
 jobs:
   blah:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup environment variables
-        run: |
-          echo "${{ env.ENV }}" >> "$GITHUB_ENV"
-          
       - name: Setup secret environment variables
         shell: pwsh
         run: |
@@ -58,9 +48,15 @@ jobs:
                   Write-Output "Testing: Added and masked secret env var '$key'. Value is '$value'"
               }
           }
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1.2.1
+        with:
+          terraform_version: ${{ inputs.tf_version }}
           
       - name: Environment
         run: env | sort
       - run: |        
           echo "Hello ${{inputs.username}} ${{secrets.SECRET_TF_OPTIONS_PLAN}}"
           echo "Test thing: ${TF_VAR_blah}"
+      
