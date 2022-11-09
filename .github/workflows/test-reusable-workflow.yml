@@ -18,6 +18,11 @@ on:
         default: -input=false
         required: false
         type: string
+      test_pwsh:
+        type: string
+        required: false
+        default: ''
+        
     secrets:
       SECRET_ENV:
         description: |
@@ -63,4 +68,9 @@ jobs:
       - run: |        
           echo "Hello ${{inputs.username}} ${{secrets.SECRET_TF_OPTIONS_PLAN}}"
           echo "Test thing: ${TF_VAR_blah}"
+          
+      - name: Test Powershell
+        if: inputs.test_pwsh != ''
+        shell: pwsh
+        run: ${{inputs.test_pws}}
       
