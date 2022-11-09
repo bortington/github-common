@@ -33,7 +33,6 @@ jobs:
           echo "${{ env.ENV }}" >> "$GITHUB_ENV"
           
       - name: Setup secret environment variables
-        if: secrets.SECRET_ENV != ''
         shell: pwsh
         run: |
           foreach($line in ${{secrets.SECRET_ENV}})
