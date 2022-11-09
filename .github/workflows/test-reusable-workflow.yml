@@ -10,7 +10,14 @@ on:
         default: ./
         required: false
         type: string
-        
+      tf_options_apply:
+        default: -input=false -auto-approve
+        required: false
+        type: string
+      tf_options_plan:
+        default: -input=false
+        required: false
+        type: string
     secrets:
       SECRET_ENV:
         description: |
