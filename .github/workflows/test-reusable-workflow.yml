@@ -40,8 +40,6 @@ jobs:
 
           foreach($line in $secretEnv.Split("`n"))
           {
-              Write-Output "Line: $line"
-
               if([string]::IsNullOrEmpty($line))
               {
                   continue
@@ -52,7 +50,6 @@ jobs:
                   Write-Output "Adding secret environment variable '$key'"
                   Write-Output "::add-mask::$value"
                   "$key=$value" >> $env:GITHUB_ENV
-                  Write-Output "Testing: Added and masked secret env var '$key'. Value is '$value'"
               }
           }
 
