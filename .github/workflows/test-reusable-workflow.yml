@@ -72,5 +72,5 @@ jobs:
       - name: Test Powershell
         if: inputs.test_pwsh != ''
         shell: pwsh
-        run: ${{inputs.test_pws}}
+        run: ${{inputs.test_pwsh}}
       
