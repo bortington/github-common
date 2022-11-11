@@ -58,7 +58,7 @@ jobs:
           
       - shell: pwsh
         run: |
-          $opt = "${{secrets.OPTIONAL_SECRET != '' && secrets.OPTIONAL_SECRET || 'no value'}}"
+          $opt = "${{secrets.OPTIONAL_SECRET != '' && format('-var codacy_api_token={0}', secrets.OPTIONAL_SECRET) || 'no value'}}"
           $opt2 = "${{secrets.OPTIONAL_SECRET}}"
           Write-Output $opt2.Length
           Write-Output "Beep: $opt"
