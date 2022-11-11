@@ -28,6 +28,8 @@ on:
         required: true
       AZURE_SUBSCRIPTION_ID:
         required: true
+      OPTIONAL_SECRET:
+        required: false
   
 jobs:
   plan:
@@ -53,6 +55,13 @@ jobs:
         with:
           vault-name: ${{inputs.tf_var_keyvault_name}}
           secrets: ${{inputs.tf_var_keyvault_secrets}}
+          
+      - shell: pwsh
+        run: |
+          $opt = "${{secrets.OPTIONAL_SECRET != '' && secrets.OPTIONAL_SECRET || 'no value'}}"
+          $opt2 = "${{secrets.OPTIONAL_SECRET}}"
+          Write-Output $opt2.Length
+          Write-Output "Beep: $opt"
           
       - run: |        
           echo "Test blah: ${TF_VAR_blah} ${{inputs.tf_plan_args}}"
